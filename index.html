@@ -259,6 +259,7 @@
   .wcard .brand-logo{font-weight:800;font-size:12.5px;letter-spacing:3px;color:#0b3a74;margin-bottom:3px;}
   .wcard .brand-sub{font-size:11.5px;color:#5b6472;margin-bottom:20px;}
   .wcard h2{font-size:26px;font-weight:800;color:#0b2447;margin:0;letter-spacing:-.3px;}
+  .wcard .wTestNo{display:inline-block;margin-top:10px;font-size:13px;font-weight:800;letter-spacing:2px;color:#0b3a74;border:1.5px solid #0b3a74;border-radius:3px;padding:4px 14px;}
   .wcard .wRule{width:42px;height:3px;background:#f2b233;border-radius:2px;margin:16px auto 14px;}
   .wcard .wLead{font-size:14px;color:#2b3440;margin:0 0 20px;}
   .wcard label{display:block;text-align:left;font-size:12.5px;font-weight:700;color:#141414;margin-bottom:6px;}
@@ -402,6 +403,7 @@
       <div class="brand-logo">G.EDU</div>
       <div class="brand-sub">G.EDU Language Center</div>
       <h2>SAT Math Practice</h2>
+      <div class="wTestNo" id="wTestNo"></div>
       <div class="wRule"></div>
       <p class="wLead">Enter your name and class to begin.</p>
       <label for="nameInput">Full name</label>
@@ -621,6 +623,7 @@ const TIME_LIMIT_MINUTES = 35;   // thời gian cho MỖI module
    image (URL or null), type ("mcq" default, or "gridin" for student-produced
    response — no options array needed for gridin), options[4] (mcq only),
    correctKey (letter "A"-"D" for mcq, or the exact string/number for gridin) */
+document.getElementById('wTestNo').textContent = TEST_NAME.replace(/\s+M$/i,'').toUpperCase();
 /* Formatting helpers for question data (teacher only):
    F(tu, mau) = phân số xếp dọc; EQ(...) = phương trình căn giữa; OL(...) = gạch trên (đoạn thẳng); SQ(...) = căn bậc hai */
 const F = (n,d) => `<span style="display:inline-block;vertical-align:middle;text-align:center;font-size:.82em;line-height:1.2;margin:0 2px;"><span style="display:block;border-bottom:1px solid currentColor;padding:0 3px;">${n}</span><span style="display:block;">${d}</span></span>`;
@@ -644,83 +647,15 @@ const QT = rows => `<table style="border-collapse:collapse;margin:6px auto;text-
    ========================================================================================== */
 const QUESTIONS = [
   /* ===================== MODULE 1 ===================== */
-  /* Q1 ← nguồn 9 */
+  /* Q1 ← cũ Q9 ← nguồn 99 */
   { id: 1, module: 1, domain: "Algebra", type: "mcq",
-    questionText: `How many solutions does the equation 35<i>x</i> − 25 = 5(7<i>x</i> − 5) have?`,
-    image: null,
-    options: [`Exactly one`, `Exactly two`, `Infinitely many`, `Zero`],
-    correctKey: "C" },
-
-  /* Q2 ← nguồn 51 */
-  { id: 2, module: 1, domain: "Advanced Math", type: "mcq",
-    questionText: `The function <i>f</i> is defined by <i>f</i>(<i>x</i>) = (<i>x</i> − 2)(<i>x</i> − 9)(<i>x</i> + 4). In the <i>xy</i>-plane, the graph of <i>y</i> = <i>h</i>(<i>x</i>) is the result of translating the graph of <i>y</i> = <i>f</i>(<i>x</i>) up 7 units. What is the <i>y</i>-coordinate of the <i>y</i>-intercept of the graph of <i>y</i> = <i>h</i>(<i>x</i>)?`,
-    image: null,
-    options: [`0`, `7`, `72`, `79`],
-    correctKey: "D" },
-
-  /* Q3 ← nguồn 42 */
-  { id: 3, module: 1, domain: "Geometry and Trigonometry", type: "mcq",
-    questionText: `A circle in the <i>xy</i>-plane has its center at (−5, 5). Line <i>t</i> is tangent to this circle at the point (6, −1). Which of the following points also lies on line <i>t</i>?`,
-    image: null,
-    options: [`(0, ${F('11','6')})`, `(1, 16)`, `(12, 10)`, `(17, 5)`],
-    correctKey: "C" },
-
-  /* Q4 ← nguồn 44 */
-  { id: 4, module: 1, domain: "Advanced Math", type: "mcq",
-    questionText: EQ(`3<i>x</i><sup>2</sup> − 13<i>x</i> + 19 = 0`) + `How many distinct real solutions does the given equation have?`,
-    image: null,
-    options: [`Zero`, `Exactly one`, `Exactly two`, `Infinitely many`],
-    correctKey: "A" },
-
-  /* Q5 ← nguồn 76 */
-  { id: 5, module: 1, domain: "Advanced Math", type: "mcq",
-    questionText: `For the polynomial function <i>f</i>, the graph of <i>y</i> = <i>f</i>(<i>x</i>) in the <i>xy</i>-plane passes through the points (−5, 0), (3, 0), and (7, 0). Which of the following must be a factor of <i>f</i>(<i>x</i>)?`,
-    image: null,
-    options: [`<i>x</i> + 3`, `<i>x</i> + 7`, `<i>x</i> − 3`, `<i>x</i> − 5`],
-    correctKey: "C" },
-
-  /* Q6 ← nguồn 113 */
-  { id: 6, module: 1, domain: "Algebra", type: "gridin",
-    questionText: `The function <i>f</i> is defined by <i>f</i>(<i>x</i>) = 3<i>x</i> − 7 and <i>f</i>(<i>b</i>) = ${F('4','5')}. What is the value of <i>b</i>?`,
-    image: null, correctKey: ["13/5", "2.6"] },
-
-  /* Q7 ← nguồn 2 (đồ thị vẽ lại bằng SVG) */
-  { id: 7, module: 1, domain: "Advanced Math", type: "mcq",
-    questionText: `<svg viewBox="0 0 368 390" width="368" style="display:block;margin:0 auto 14px;max-width:100%;font-family:Georgia,serif;"><line x1="30" y1="378" x2="30" y2="26" stroke="#222" stroke-width="0.9"/><line x1="52" y1="378" x2="52" y2="26" stroke="#222" stroke-width="0.9"/><line x1="74" y1="378" x2="74" y2="26" stroke="#222" stroke-width="0.9"/><line x1="96" y1="378" x2="96" y2="26" stroke="#222" stroke-width="0.9"/><line x1="118" y1="378" x2="118" y2="26" stroke="#222" stroke-width="0.9"/><line x1="140" y1="378" x2="140" y2="26" stroke="#222" stroke-width="0.9"/><line x1="162" y1="378" x2="162" y2="26" stroke="#222" stroke-width="0.9"/><line x1="184" y1="378" x2="184" y2="26" stroke="#222" stroke-width="0"/><line x1="206" y1="378" x2="206" y2="26" stroke="#222" stroke-width="0.9"/><line x1="228" y1="378" x2="228" y2="26" stroke="#222" stroke-width="0.9"/><line x1="250" y1="378" x2="250" y2="26" stroke="#222" stroke-width="0.9"/><line x1="272" y1="378" x2="272" y2="26" stroke="#222" stroke-width="0.9"/><line x1="294" y1="378" x2="294" y2="26" stroke="#222" stroke-width="0.9"/><line x1="316" y1="378" x2="316" y2="26" stroke="#222" stroke-width="0.9"/><line x1="338" y1="378" x2="338" y2="26" stroke="#222" stroke-width="0.9"/><line x1="30" y1="378" x2="338" y2="378" stroke="#222" stroke-width="0.9"/><line x1="30" y1="356" x2="338" y2="356" stroke="#222" stroke-width="0.9"/><line x1="30" y1="334" x2="338" y2="334" stroke="#222" stroke-width="0.9"/><line x1="30" y1="312" x2="338" y2="312" stroke="#222" stroke-width="0.9"/><line x1="30" y1="290" x2="338" y2="290" stroke="#222" stroke-width="0.9"/><line x1="30" y1="268" x2="338" y2="268" stroke="#222" stroke-width="0.9"/><line x1="30" y1="246" x2="338" y2="246" stroke="#222" stroke-width="0.9"/><line x1="30" y1="224" x2="338" y2="224" stroke="#222" stroke-width="0.9"/><line x1="30" y1="202" x2="338" y2="202" stroke="#222" stroke-width="0.9"/><line x1="30" y1="180" x2="338" y2="180" stroke="#222" stroke-width="0.9"/><line x1="30" y1="158" x2="338" y2="158" stroke="#222" stroke-width="0.9"/><line x1="30" y1="136" x2="338" y2="136" stroke="#222" stroke-width="0"/><line x1="30" y1="114" x2="338" y2="114" stroke="#222" stroke-width="0.9"/><line x1="30" y1="92" x2="338" y2="92" stroke="#222" stroke-width="0.9"/><line x1="30" y1="70" x2="338" y2="70" stroke="#222" stroke-width="0.9"/><line x1="30" y1="48" x2="338" y2="48" stroke="#222" stroke-width="0.9"/><line x1="30" y1="26" x2="338" y2="26" stroke="#222" stroke-width="0.9"/><line x1="24" y1="136" x2="348" y2="136" stroke="#111" stroke-width="1.6"/><polygon points="354,136 344,132 344,140" fill="#111"/><line x1="184" y1="384" x2="184" y2="16" stroke="#111" stroke-width="1.6"/><polygon points="184,10 180,20 188,20" fill="#111"/><text x="350" y="128" font-size="15" font-style="italic">x</text><text x="192" y="18" font-size="15" font-style="italic">y</text><rect x="41" y="130" width="22" height="14" fill="#fff"/><text x="52" y="141" font-size="13" text-anchor="middle">−6</text><rect x="85" y="130" width="22" height="14" fill="#fff"/><text x="96" y="141" font-size="13" text-anchor="middle">−4</text><rect x="129" y="130" width="22" height="14" fill="#fff"/><text x="140" y="141" font-size="13" text-anchor="middle">−2</text><rect x="217" y="130" width="22" height="14" fill="#fff"/><text x="228" y="141" font-size="13" text-anchor="middle">2</text><rect x="261" y="130" width="22" height="14" fill="#fff"/><text x="272" y="141" font-size="13" text-anchor="middle">4</text><rect x="305" y="130" width="22" height="14" fill="#fff"/><text x="316" y="141" font-size="13" text-anchor="middle">6</text><rect x="159" y="42" width="22" height="14" fill="#fff"/><text x="181" y="53" font-size="13" text-anchor="end">4</text><rect x="159" y="86" width="22" height="14" fill="#fff"/><text x="181" y="97" font-size="13" text-anchor="end">2</text><rect x="159" y="174" width="22" height="14" fill="#fff"/><text x="181" y="185" font-size="13" text-anchor="end">−2</text><rect x="159" y="218" width="22" height="14" fill="#fff"/><text x="181" y="229" font-size="13" text-anchor="end">−4</text><rect x="159" y="262" width="22" height="14" fill="#fff"/><text x="181" y="273" font-size="13" text-anchor="end">−6</text><rect x="159" y="306" width="22" height="14" fill="#fff"/><text x="181" y="317" font-size="13" text-anchor="end">−8</text><rect x="159" y="350" width="22" height="14" fill="#fff"/><text x="181" y="361" font-size="13" text-anchor="end">−10</text><rect x="163" y="141" width="22" height="14" fill="#fff"/><text x="174" y="152" font-size="13" text-anchor="middle"><tspan font-style="italic">O</tspan></text><polyline points="30.00,93.03 30.89,93.06 31.79,93.09 32.68,93.12 33.57,93.15 34.46,93.19 35.36,93.22 36.25,93.26 37.14,93.29 38.03,93.33 38.93,93.37 39.82,93.41 40.71,93.45 41.61,93.49 42.50,93.53 43.39,93.57 44.28,93.62 45.18,93.66 46.07,93.71 46.96,93.76 47.85,93.81 48.75,93.86 49.64,93.91 50.53,93.97 51.42,94.03 52.32,94.08 53.21,94.14 54.10,94.20 55.00,94.27 55.89,94.33 56.78,94.40 57.67,94.47 58.57,94.54 59.46,94.61 60.35,94.68 61.24,94.76 62.14,94.84 63.03,94.92 63.92,95.00 64.82,95.09 65.71,95.18 66.60,95.27 67.49,95.36 68.39,95.46 69.28,95.55 70.17,95.66 71.06,95.76 71.96,95.87 72.85,95.98 73.74,96.09 74.64,96.21 75.53,96.33 76.42,96.45 77.31,96.58 78.21,96.71 79.10,96.84 79.99,96.98 80.88,97.12 81.78,97.27 82.67,97.42 83.56,97.58 84.45,97.73 85.35,97.90 86.24,98.07 87.13,98.24 88.03,98.42 88.92,98.60 89.81,98.79 90.70,98.98 91.60,99.18 92.49,99.39 93.38,99.60 94.27,99.81 95.17,100.04 96.06,100.27 96.95,100.50 97.85,100.74 98.74,100.99 99.63,101.25 100.52,101.51 101.42,101.79 102.31,102.06 103.20,102.35 104.09,102.65 104.99,102.95 105.88,103.26 106.77,103.58 107.67,103.91 108.56,104.25 109.45,104.60 110.34,104.96 111.24,105.33 112.13,105.71 113.02,106.10 113.91,106.51 114.81,106.92 115.70,107.35 116.59,107.78 117.48,108.23 118.38,108.70 119.27,109.17 120.16,109.66 121.06,110.17 121.95,110.69 122.84,111.22 123.73,111.77 124.63,112.33 125.52,112.91 126.41,113.51 127.30,114.12 128.20,114.75 129.09,115.40 129.98,116.07 130.88,116.75 131.77,117.46 132.66,118.19 133.55,118.93 134.45,119.70 135.34,120.49 136.23,121.31 137.12,122.14 138.02,123.00 138.91,123.89 139.80,124.80 140.70,125.73 141.59,126.69 142.48,127.68 143.37,128.70 144.27,129.75 145.16,130.82 146.05,131.93 146.94,133.07 147.84,134.24 148.73,135.45 149.62,136.69 150.51,137.96 151.41,139.27 152.30,140.62 153.19,142.01 154.09,143.43 154.98,144.90 155.87,146.41 156.76,147.96 157.66,149.56 158.55,151.20 159.44,152.89 160.33,154.63 161.23,156.41 162.12,158.25 163.01,160.14 163.91,162.08 164.80,164.08 165.69,166.14 166.58,168.25 167.48,170.43 168.37,172.67 169.26,174.97 170.15,177.33 171.05,179.77 171.94,182.27 172.83,184.85 173.73,187.49 174.62,190.22 175.51,193.02 176.40,195.90 177.30,198.87 178.19,201.91 179.08,205.05 179.97,208.27 180.87,211.59 181.76,215.00 182.65,218.51 183.54,222.12 184.44,225.83 185.33,229.65 186.22,233.58 187.12,237.61 188.01,241.77 188.90,246.04 189.79,250.43 190.69,254.95 191.58,259.60 192.47,264.38 193.36,269.30 194.26,274.36 195.15,279.56 196.04,284.91 196.94,290.41 197.83,296.07 198.72,301.89 199.61,307.88 200.51,314.04 201.40,320.37 202.29,326.89 203.18,333.59 204.08,340.48 204.97,347.57 205.86,354.86 206.76,362.36 207.65,370.07 208.54,378.00" fill="none" stroke="#111" stroke-width="2.6"/></svg>`
-      + `The graph of <i>y</i> = <i>f</i>(<i>x</i>) + 2 is shown, where <i>f</i> is defined by an equation of the form <i>f</i>(<i>x</i>) = <i>ab</i><sup><i>x</i></sup> + <i>c</i>. If <i>a</i>, <i>b</i>, and <i>c</i> are integer constants and <i>c</i> ≤ 0, which equation could define <i>f</i>(<i>x</i>)?`,
-    image: null,
-    options: [`<i>f</i>(<i>x</i>) = −6 · 2<sup><i>x</i></sup>`, `<i>f</i>(<i>x</i>) = −6 · 2<sup><i>x</i></sup> − 2`, `<i>f</i>(<i>x</i>) = −6 · 2<sup><i>x</i></sup> − 4`, `<i>f</i>(<i>x</i>) = −6 · 2<sup><i>x</i></sup> − 6`],
-    correctKey: "A" },
-
-  /* Q8 ← nguồn 88 */
-  { id: 8, module: 1, domain: "Advanced Math", type: "mcq",
-    questionText: EQ(`4<i>x</i><sup>2</sup> − <i>px</i> + <i>w</i> = −85`) + `In the given equation, <i>p</i> and <i>w</i> are integer constants. The equation has exactly one real solution. Which is <b>NOT</b> a possible value of <i>w</i>?`,
-    image: null,
-    options: [`−21`, `15`, `64`, `315`],
-    correctKey: "C" },
-
-  /* Q9 ← nguồn 99 */
-  { id: 9, module: 1, domain: "Algebra", type: "mcq",
     questionText: `A total of 255 people registered for a city's annual race as either a runner or a walker. 210 people registered as a runner. How many people registered as a walker?`,
     image: null,
     options: [`510`, `255`, `210`, `45`],
     correctKey: "D" },
 
-  /* Q10 ← nguồn 159 */
-  { id: 10, module: 1, domain: "Problem-Solving and Data Analysis", type: "mcq",
-    questionText: EQ(`Data set <i>X</i> : 13, 16, 19, 21, 24, 25, 25, 26, 38`)
-      + EQ(`Data set <i>Y</i> : 13, 16, 19, 21, 24, 25, 25, 26, 33`)
-      + `Data set <i>Y</i> is created by replacing the number 38 in data set <i>X</i> with the number 33. Which of the following statements is true about the means and medians of data set <i>X</i> and data set <i>Y</i>?`,
-    image: null,
-    options: [
-      `The mean of data set <i>X</i> is greater than the mean of data set <i>Y</i>, and the median of data set <i>X</i> equals the median of data set <i>Y</i>.`,
-      `The mean of data set <i>X</i> is greater than the mean of data set <i>Y</i>, and the median of data set X is greater than the median of data set <i>Y</i>.`,
-      `The mean of data set <i>X</i> equals the mean of data set <i>Y</i>, and the median of data set <i>X</i> equals the median of data set <i>Y</i>.`,
-      `The mean of data set <i>X</i> is less than the mean of data set <i>Y</i>, and the median of data set <i>X</i> is greater than the median of data set <i>Y</i>.`],
-    correctKey: "A" },
-
-  /* Q11 ← nguồn 50 */
-  { id: 11, module: 1, domain: "Problem-Solving and Data Analysis", type: "mcq",
+  /* Q2 ← cũ Q11 ← nguồn 50 */
+  { id: 2, module: 1, domain: "Problem-Solving and Data Analysis", type: "mcq",
     questionText: `The table summarizes the distribution of average pitching speed, in miles per hour mph, for a sample of 24 pitchers in a youth softball league.`
       + `<table style="border-collapse:collapse;margin:18px auto 18px;font-size:16px;">`
       + `<tr><td style="border:1px solid #111;padding:8px 20px;text-align:center;">Average pitching speed</td><td style="border:1px solid #111;padding:8px 20px;text-align:center;">Number of pitchers</td></tr>`
@@ -733,83 +668,172 @@ const QUESTIONS = [
     options: [`12`, `7`, `4`, `1`],
     correctKey: "A" },
 
-  /* Q12 ← nguồn 87 */
-  { id: 12, module: 1, domain: "Advanced Math", type: "mcq",
-    questionText: `<div style="text-align:center;margin:4px 0 12px;line-height:2;"><i>y</i> = 0<br><i>y</i> = 4<i>x</i><sup>2</sup> − 144</div>`
-      + `Which ordered pair (<i>x</i>, <i>y</i>) is a solution to the given system of equations?`,
-    image: null,
-    options: [`(0, 6)`, `(0, 36)`, `(6, 0)`, `(36, 0)`],
-    correctKey: "C" },
-
-  /* Q13 ← nguồn 181 */
-  { id: 13, module: 1, domain: "Advanced Math", type: "mcq",
-    questionText: `For the polynomial function <i>f</i>, the graph of <i>y</i> = <i>f</i>(<i>x</i>) in the <i>xy</i>-plane passes through the points (−3, 0), (1, 0), and (7, 0). Which of the following must be a factor of <i>f</i>(<i>x</i>)?`,
-    image: null,
-    options: [`<i>x</i> + 1`, `<i>x</i> + 7`, `<i>x</i> − 1`, `<i>x</i> − 3`],
-    correctKey: "C" },
-
-  /* Q14 ← nguồn 101 */
-  { id: 14, module: 1, domain: "Problem-Solving and Data Analysis", type: "mcq",
-    questionText: `The area of a rectangular region is increasing at a rate of 140 square feet per hour. Which of the following is closest to this rate in square meters per minute? (Use 1 meter = 3.28 feet.)`,
-    image: null,
-    options: [`13.01`, `0.22`, `0.71`, `7.65`],
-    correctKey: "B" },
-
-  /* Q15 ← nguồn 26 */
-  { id: 15, module: 1, domain: "Algebra", type: "gridin",
-    questionText: `The function <i>f</i> is defined by the equation <i>f</i>(<i>x</i>) = 320<i>x</i>. What is the value of <i>f</i>(10)?`,
-    image: null, correctKey: "3200" },
-
-  /* Q16 ← nguồn 186 (hình vẽ lại bằng SVG) */
-  { id: 16, module: 1, domain: "Geometry and Trigonometry", type: "gridin",
-    questionText: `<svg viewBox="0 0 460 260" width="440" style="display:block;margin:0 auto 6px;max-width:100%;font-family:Georgia,serif;"><line x1="10" y1="10" x2="450" y2="250" stroke="#111" stroke-width="2.4"/><line x1="10" y1="250" x2="450" y2="10" stroke="#111" stroke-width="2.4"/><text x="192" y="138" font-size="22" font-style="italic">r</text><text x="203" y="126" font-size="13">°</text><text x="252" y="138" font-size="22" font-style="italic">s</text><text x="263" y="126" font-size="13">°</text></svg><div style="text-align:center;margin:0 0 14px;">Note: Figure not drawn to scale.</div>`
-      + `In the figure, two lines intersect at a point. If <i>r</i> = 52, what is the value of <i>s</i>?`,
-    image: null, correctKey: "52" },
-
-  /* Q17 ← nguồn 192 */
-  { id: 17, module: 1, domain: "Algebra", type: "gridin",
-    questionText: `If <i>x</i> + 3<i>y</i> = 29 and 7<i>x</i> − 12<i>y</i> = −61, what is the value of <i>y</i>?`,
-    image: null, correctKey: "8" },
-
-  /* Q18 ← nguồn 5 */
-  { id: 18, module: 1, domain: "Advanced Math", type: "mcq",
-    questionText: `Which expression is equivalent to 4<i>x</i><sup>3</sup> + 20<i>x</i><sup>2</sup>?`,
-    image: null,
-    options: [`<i>x</i><sup>2</sup> + 20<i>x</i>`, `4<i>x</i><sup>2</sup>(<i>x</i> + 5)`, `4<i>x</i><sup>2</sup>(<i>x</i> + 16)`, `<i>x</i><sup>3</sup> + 20<i>x</i>`],
-    correctKey: "B" },
-
-  /* Q19 ← nguồn 160 */
-  { id: 19, module: 1, domain: "Advanced Math", type: "mcq",
-    questionText: `The expression ${F('6<i>x</i><sup>22</sup>','18<i>x</i><sup>5</sup>')} is equivalent to ${F('1','3')}<i>x</i><sup><i>b</i></sup>, where <i>b</i> is a constant and <i>x</i> &gt; 0. What is the value of <i>b</i>?`,
-    image: null,
-    options: [F('5','22'), F('22','5'), `17`, `27`],
-    correctKey: "C" },
-
-  /* Q20 ← nguồn 182 */
-  { id: 20, module: 1, domain: "Algebra", type: "mcq",
-    questionText: `Based on a model, on day 1 of an 8-day experiment, a lima bean plant had an estimated mass of 253 grams, and each day after day 1 of the experiment, the estimated mass of the plant decreased by 4 grams. Which equation represents this model, where <i>m</i> is the estimated mass, in grams, of the plant on day <i>x</i> of the experiment and 1 ≤ <i>x</i> ≤ 8?`,
-    image: null,
-    options: [`<i>m</i> = −4<i>x</i> + 245`, `<i>m</i> = −4<i>x</i> + 249`, `<i>m</i> = −4<i>x</i> + 253`, `<i>m</i> = −4<i>x</i> + 257`],
-    correctKey: "D" },
-
-  /* Q21 ← nguồn 110 */
-  { id: 21, module: 1, domain: "Problem-Solving and Data Analysis", type: "mcq",
-    questionText: `The ratio <i>x</i> to <i>y</i> is equivalent to the ratio 4 to 7. If <i>x</i> = 11<i>t</i>, what is the value of <i>y</i> in terms of <i>t</i>?`,
-    image: null,
-    options: [F('4','77') + `<i>t</i>`, F('7','44') + `<i>t</i>`, F('44','7') + `<i>t</i>`, F('77','4') + `<i>t</i>`],
-    correctKey: "D" },
-
-  /* Q22 ← nguồn 199 (đồ thị vẽ lại bằng SVG) */
-  { id: 22, module: 1, domain: "Algebra", type: "mcq",
+  /* Q3 ← cũ Q22 ← nguồn 199 (đồ thị vẽ lại bằng SVG) */
+  { id: 3, module: 1, domain: "Algebra", type: "mcq",
     questionText: `<svg viewBox="0 0 332 320" width="332" style="display:block;margin:0 auto 14px;max-width:100%;font-family:Georgia,serif;"><line x1="78" y1="270" x2="78" y2="30" stroke="#222" stroke-width="0.9"/><line x1="94" y1="270" x2="94" y2="30" stroke="#222" stroke-width="0.9"/><line x1="110" y1="270" x2="110" y2="30" stroke="#222" stroke-width="0.9"/><line x1="126" y1="270" x2="126" y2="30" stroke="#222" stroke-width="0.9"/><line x1="142" y1="270" x2="142" y2="30" stroke="#222" stroke-width="0.9"/><line x1="158" y1="270" x2="158" y2="30" stroke="#222" stroke-width="0.9"/><line x1="174" y1="270" x2="174" y2="30" stroke="#222" stroke-width="0.9"/><line x1="190" y1="270" x2="190" y2="30" stroke="#222" stroke-width="0.9"/><line x1="206" y1="270" x2="206" y2="30" stroke="#222" stroke-width="0.9"/><line x1="222" y1="270" x2="222" y2="30" stroke="#222" stroke-width="0.9"/><line x1="238" y1="270" x2="238" y2="30" stroke="#222" stroke-width="0.9"/><line x1="254" y1="270" x2="254" y2="30" stroke="#222" stroke-width="0.9"/><line x1="270" y1="270" x2="270" y2="30" stroke="#222" stroke-width="0.9"/><line x1="286" y1="270" x2="286" y2="30" stroke="#222" stroke-width="0.9"/><line x1="302" y1="270" x2="302" y2="30" stroke="#222" stroke-width="0.9"/><line x1="62" y1="254" x2="302" y2="254" stroke="#222" stroke-width="0.9"/><line x1="62" y1="238" x2="302" y2="238" stroke="#222" stroke-width="0.9"/><line x1="62" y1="222" x2="302" y2="222" stroke="#222" stroke-width="0.9"/><line x1="62" y1="206" x2="302" y2="206" stroke="#222" stroke-width="0.9"/><line x1="62" y1="190" x2="302" y2="190" stroke="#222" stroke-width="0.9"/><line x1="62" y1="174" x2="302" y2="174" stroke="#222" stroke-width="0.9"/><line x1="62" y1="158" x2="302" y2="158" stroke="#222" stroke-width="0.9"/><line x1="62" y1="142" x2="302" y2="142" stroke="#222" stroke-width="0.9"/><line x1="62" y1="126" x2="302" y2="126" stroke="#222" stroke-width="0.9"/><line x1="62" y1="110" x2="302" y2="110" stroke="#222" stroke-width="0.9"/><line x1="62" y1="94" x2="302" y2="94" stroke="#222" stroke-width="0.9"/><line x1="62" y1="78" x2="302" y2="78" stroke="#222" stroke-width="0.9"/><line x1="62" y1="62" x2="302" y2="62" stroke="#222" stroke-width="0.9"/><line x1="62" y1="46" x2="302" y2="46" stroke="#222" stroke-width="0.9"/><line x1="62" y1="30" x2="302" y2="30" stroke="#222" stroke-width="0.9"/><line x1="62" y1="270" x2="312" y2="270" stroke="#111" stroke-width="1.6"/><polygon points="318,270 308,266 308,274" fill="#111"/><line x1="62" y1="270" x2="62" y2="20" stroke="#111" stroke-width="1.6"/><polygon points="62,14 58,24 66,24" fill="#111"/><text x="314" y="262" font-size="15" font-style="italic">x</text><text x="58" y="10" font-size="15" font-style="italic" text-anchor="middle">y</text><text x="94" y="288" font-size="13" text-anchor="middle">2</text><text x="126" y="288" font-size="13" text-anchor="middle">4</text><text x="158" y="288" font-size="13" text-anchor="middle">6</text><text x="190" y="288" font-size="13" text-anchor="middle">8</text><text x="222" y="288" font-size="13" text-anchor="middle">10</text><text x="254" y="288" font-size="13" text-anchor="middle">12</text><text x="286" y="288" font-size="13" text-anchor="middle">14</text><text x="54" y="243" font-size="13" text-anchor="end">2</text><text x="54" y="211" font-size="13" text-anchor="end">4</text><text x="54" y="179" font-size="13" text-anchor="end">6</text><text x="54" y="147" font-size="13" text-anchor="end">8</text><text x="54" y="115" font-size="13" text-anchor="end">10</text><text x="54" y="83" font-size="13" text-anchor="end">12</text><text x="54" y="51" font-size="13" text-anchor="end">14</text><text x="50" y="288" font-size="13" text-anchor="middle"><tspan font-style="italic">O</tspan></text><text x="182.0" y="310" font-size="13" text-anchor="middle">Time (hours)</text><text x="22" y="150.0" font-size="13" text-anchor="middle" transform="rotate(-90 22 150.0)">Weight (ounces)</text><polyline points="62.00,62.00 302.00,122.00" fill="none" stroke="#111" stroke-width="2.6"/></svg>`
       + `The function <i>w</i> models the weight, in ounces, of the remaining solid wax of a burning candle as a function of the time <i>x</i>, in hours, after the candle was lit. The graph of <i>y</i> = <i>w</i>(<i>x</i>) is shown. According to the model, what was the weight, in ounces, of the candle's remaining solid wax 12 hours after the candle was lit?`,
     image: null,
     options: [`4`, `8`, `10`, `13`],
     correctKey: "C" },
 
+  /* Q4 ← cũ Q18 ← nguồn 5 */
+  { id: 4, module: 1, domain: "Advanced Math", type: "mcq",
+    questionText: `Which expression is equivalent to 4<i>x</i><sup>3</sup> + 20<i>x</i><sup>2</sup>?`,
+    image: null,
+    options: [`<i>x</i><sup>2</sup> + 20<i>x</i>`, `4<i>x</i><sup>2</sup>(<i>x</i> + 5)`, `4<i>x</i><sup>2</sup>(<i>x</i> + 16)`, `<i>x</i><sup>3</sup> + 20<i>x</i>`],
+    correctKey: "B" },
+
+  /* Q5 ← cũ Q1 ← nguồn 9 */
+  { id: 5, module: 1, domain: "Algebra", type: "mcq",
+    questionText: `How many solutions does the equation 35<i>x</i> − 25 = 5(7<i>x</i> − 5) have?`,
+    image: null,
+    options: [`Exactly one`, `Exactly two`, `Infinitely many`, `Zero`],
+    correctKey: "C" },
+
+  /* Q6 ← cũ Q5 ← nguồn 76 */
+  { id: 6, module: 1, domain: "Advanced Math", type: "mcq",
+    questionText: `For the polynomial function <i>f</i>, the graph of <i>y</i> = <i>f</i>(<i>x</i>) in the <i>xy</i>-plane passes through the points (−5, 0), (3, 0), and (7, 0). Which of the following must be a factor of <i>f</i>(<i>x</i>)?`,
+    image: null,
+    options: [`<i>x</i> + 3`, `<i>x</i> + 7`, `<i>x</i> − 3`, `<i>x</i> − 5`],
+    correctKey: "C" },
+
+  /* Q7 ← cũ Q13 ← nguồn 181 */
+  { id: 7, module: 1, domain: "Advanced Math", type: "mcq",
+    questionText: `For the polynomial function <i>f</i>, the graph of <i>y</i> = <i>f</i>(<i>x</i>) in the <i>xy</i>-plane passes through the points (−3, 0), (1, 0), and (7, 0). Which of the following must be a factor of <i>f</i>(<i>x</i>)?`,
+    image: null,
+    options: [`<i>x</i> + 1`, `<i>x</i> + 7`, `<i>x</i> − 1`, `<i>x</i> − 3`],
+    correctKey: "C" },
+
+  /* Q8 ← cũ Q12 ← nguồn 87 */
+  { id: 8, module: 1, domain: "Advanced Math", type: "mcq",
+    questionText: `<div style="text-align:center;margin:4px 0 12px;line-height:2;"><i>y</i> = 0<br><i>y</i> = 4<i>x</i><sup>2</sup> − 144</div>`
+      + `Which ordered pair (<i>x</i>, <i>y</i>) is a solution to the given system of equations?`,
+    image: null,
+    options: [`(0, 6)`, `(0, 36)`, `(6, 0)`, `(36, 0)`],
+    correctKey: "C" },
+
+  /* Q9 ← cũ Q19 ← nguồn 160 */
+  { id: 9, module: 1, domain: "Advanced Math", type: "mcq",
+    questionText: `The expression ${F('6<i>x</i><sup>22</sup>','18<i>x</i><sup>5</sup>')} is equivalent to ${F('1','3')}<i>x</i><sup><i>b</i></sup>, where <i>b</i> is a constant and <i>x</i> &gt; 0. What is the value of <i>b</i>?`,
+    image: null,
+    options: [F('5','22'), F('22','5'), `17`, `27`],
+    correctKey: "C" },
+
+  /* Q10 ← cũ Q4 ← nguồn 44 */
+  { id: 10, module: 1, domain: "Advanced Math", type: "mcq",
+    questionText: EQ(`3<i>x</i><sup>2</sup> − 13<i>x</i> + 19 = 0`) + `How many distinct real solutions does the given equation have?`,
+    image: null,
+    options: [`Zero`, `Exactly one`, `Exactly two`, `Infinitely many`],
+    correctKey: "A" },
+
+  /* Q11 ← cũ Q21 ← nguồn 110 */
+  { id: 11, module: 1, domain: "Problem-Solving and Data Analysis", type: "mcq",
+    questionText: `The ratio <i>x</i> to <i>y</i> is equivalent to the ratio 4 to 7. If <i>x</i> = 11<i>t</i>, what is the value of <i>y</i> in terms of <i>t</i>?`,
+    image: null,
+    options: [F('4','77') + `<i>t</i>`, F('7','44') + `<i>t</i>`, F('44','7') + `<i>t</i>`, F('77','4') + `<i>t</i>`],
+    correctKey: "D" },
+
+  /* Q12 ← cũ Q20 ← nguồn 182 */
+  { id: 12, module: 1, domain: "Algebra", type: "mcq",
+    questionText: `Based on a model, on day 1 of an 8-day experiment, a lima bean plant had an estimated mass of 253 grams, and each day after day 1 of the experiment, the estimated mass of the plant decreased by 4 grams. Which equation represents this model, where <i>m</i> is the estimated mass, in grams, of the plant on day <i>x</i> of the experiment and 1 ≤ <i>x</i> ≤ 8?`,
+    image: null,
+    options: [`<i>m</i> = −4<i>x</i> + 245`, `<i>m</i> = −4<i>x</i> + 249`, `<i>m</i> = −4<i>x</i> + 253`, `<i>m</i> = −4<i>x</i> + 257`],
+    correctKey: "D" },
+
+  /* Q13 ← cũ Q10 ← nguồn 159 */
+  { id: 13, module: 1, domain: "Problem-Solving and Data Analysis", type: "mcq",
+    questionText: EQ(`Data set <i>X</i> : 13, 16, 19, 21, 24, 25, 25, 26, 38`)
+      + EQ(`Data set <i>Y</i> : 13, 16, 19, 21, 24, 25, 25, 26, 33`)
+      + `Data set <i>Y</i> is created by replacing the number 38 in data set <i>X</i> with the number 33. Which of the following statements is true about the means and medians of data set <i>X</i> and data set <i>Y</i>?`,
+    image: null,
+    options: [
+      `The mean of data set <i>X</i> is greater than the mean of data set <i>Y</i>, and the median of data set <i>X</i> equals the median of data set <i>Y</i>.`,
+      `The mean of data set <i>X</i> is greater than the mean of data set <i>Y</i>, and the median of data set X is greater than the median of data set <i>Y</i>.`,
+      `The mean of data set <i>X</i> equals the mean of data set <i>Y</i>, and the median of data set <i>X</i> equals the median of data set <i>Y</i>.`,
+      `The mean of data set <i>X</i> is less than the mean of data set <i>Y</i>, and the median of data set <i>X</i> is greater than the median of data set <i>Y</i>.`],
+    correctKey: "A" },
+
+  /* Q14 ← cũ Q2 ← nguồn 51 */
+  { id: 14, module: 1, domain: "Advanced Math", type: "mcq",
+    questionText: `The function <i>f</i> is defined by <i>f</i>(<i>x</i>) = (<i>x</i> − 2)(<i>x</i> − 9)(<i>x</i> + 4). In the <i>xy</i>-plane, the graph of <i>y</i> = <i>h</i>(<i>x</i>) is the result of translating the graph of <i>y</i> = <i>f</i>(<i>x</i>) up 7 units. What is the <i>y</i>-coordinate of the <i>y</i>-intercept of the graph of <i>y</i> = <i>h</i>(<i>x</i>)?`,
+    image: null,
+    options: [`0`, `7`, `72`, `79`],
+    correctKey: "D" },
+
+  /* Q15 ← cũ Q14 ← nguồn 101 */
+  { id: 15, module: 1, domain: "Problem-Solving and Data Analysis", type: "mcq",
+    questionText: `The area of a rectangular region is increasing at a rate of 140 square feet per hour. Which of the following is closest to this rate in square meters per minute? (Use 1 meter = 3.28 feet.)`,
+    image: null,
+    options: [`13.01`, `0.22`, `0.71`, `7.65`],
+    correctKey: "B" },
+
+  /* Q16 ← cũ Q3 ← nguồn 42 */
+  { id: 16, module: 1, domain: "Geometry and Trigonometry", type: "mcq",
+    questionText: `A circle in the <i>xy</i>-plane has its center at (−5, 5). Line <i>t</i> is tangent to this circle at the point (6, −1). Which of the following points also lies on line <i>t</i>?`,
+    image: null,
+    options: [`(0, ${F('11','6')})`, `(1, 16)`, `(12, 10)`, `(17, 5)`],
+    correctKey: "C" },
+
+  /* Q17 ← cũ Q7 ← nguồn 2 (đồ thị vẽ lại bằng SVG) */
+  { id: 17, module: 1, domain: "Advanced Math", type: "mcq",
+    questionText: `<svg viewBox="0 0 368 390" width="368" style="display:block;margin:0 auto 14px;max-width:100%;font-family:Georgia,serif;"><line x1="30" y1="378" x2="30" y2="26" stroke="#222" stroke-width="0.9"/><line x1="52" y1="378" x2="52" y2="26" stroke="#222" stroke-width="0.9"/><line x1="74" y1="378" x2="74" y2="26" stroke="#222" stroke-width="0.9"/><line x1="96" y1="378" x2="96" y2="26" stroke="#222" stroke-width="0.9"/><line x1="118" y1="378" x2="118" y2="26" stroke="#222" stroke-width="0.9"/><line x1="140" y1="378" x2="140" y2="26" stroke="#222" stroke-width="0.9"/><line x1="162" y1="378" x2="162" y2="26" stroke="#222" stroke-width="0.9"/><line x1="184" y1="378" x2="184" y2="26" stroke="#222" stroke-width="0"/><line x1="206" y1="378" x2="206" y2="26" stroke="#222" stroke-width="0.9"/><line x1="228" y1="378" x2="228" y2="26" stroke="#222" stroke-width="0.9"/><line x1="250" y1="378" x2="250" y2="26" stroke="#222" stroke-width="0.9"/><line x1="272" y1="378" x2="272" y2="26" stroke="#222" stroke-width="0.9"/><line x1="294" y1="378" x2="294" y2="26" stroke="#222" stroke-width="0.9"/><line x1="316" y1="378" x2="316" y2="26" stroke="#222" stroke-width="0.9"/><line x1="338" y1="378" x2="338" y2="26" stroke="#222" stroke-width="0.9"/><line x1="30" y1="378" x2="338" y2="378" stroke="#222" stroke-width="0.9"/><line x1="30" y1="356" x2="338" y2="356" stroke="#222" stroke-width="0.9"/><line x1="30" y1="334" x2="338" y2="334" stroke="#222" stroke-width="0.9"/><line x1="30" y1="312" x2="338" y2="312" stroke="#222" stroke-width="0.9"/><line x1="30" y1="290" x2="338" y2="290" stroke="#222" stroke-width="0.9"/><line x1="30" y1="268" x2="338" y2="268" stroke="#222" stroke-width="0.9"/><line x1="30" y1="246" x2="338" y2="246" stroke="#222" stroke-width="0.9"/><line x1="30" y1="224" x2="338" y2="224" stroke="#222" stroke-width="0.9"/><line x1="30" y1="202" x2="338" y2="202" stroke="#222" stroke-width="0.9"/><line x1="30" y1="180" x2="338" y2="180" stroke="#222" stroke-width="0.9"/><line x1="30" y1="158" x2="338" y2="158" stroke="#222" stroke-width="0.9"/><line x1="30" y1="136" x2="338" y2="136" stroke="#222" stroke-width="0"/><line x1="30" y1="114" x2="338" y2="114" stroke="#222" stroke-width="0.9"/><line x1="30" y1="92" x2="338" y2="92" stroke="#222" stroke-width="0.9"/><line x1="30" y1="70" x2="338" y2="70" stroke="#222" stroke-width="0.9"/><line x1="30" y1="48" x2="338" y2="48" stroke="#222" stroke-width="0.9"/><line x1="30" y1="26" x2="338" y2="26" stroke="#222" stroke-width="0.9"/><line x1="24" y1="136" x2="348" y2="136" stroke="#111" stroke-width="1.6"/><polygon points="354,136 344,132 344,140" fill="#111"/><line x1="184" y1="384" x2="184" y2="16" stroke="#111" stroke-width="1.6"/><polygon points="184,10 180,20 188,20" fill="#111"/><text x="350" y="128" font-size="15" font-style="italic">x</text><text x="192" y="18" font-size="15" font-style="italic">y</text><rect x="41" y="130" width="22" height="14" fill="#fff"/><text x="52" y="141" font-size="13" text-anchor="middle">−6</text><rect x="85" y="130" width="22" height="14" fill="#fff"/><text x="96" y="141" font-size="13" text-anchor="middle">−4</text><rect x="129" y="130" width="22" height="14" fill="#fff"/><text x="140" y="141" font-size="13" text-anchor="middle">−2</text><rect x="217" y="130" width="22" height="14" fill="#fff"/><text x="228" y="141" font-size="13" text-anchor="middle">2</text><rect x="261" y="130" width="22" height="14" fill="#fff"/><text x="272" y="141" font-size="13" text-anchor="middle">4</text><rect x="305" y="130" width="22" height="14" fill="#fff"/><text x="316" y="141" font-size="13" text-anchor="middle">6</text><rect x="159" y="42" width="22" height="14" fill="#fff"/><text x="181" y="53" font-size="13" text-anchor="end">4</text><rect x="159" y="86" width="22" height="14" fill="#fff"/><text x="181" y="97" font-size="13" text-anchor="end">2</text><rect x="159" y="174" width="22" height="14" fill="#fff"/><text x="181" y="185" font-size="13" text-anchor="end">−2</text><rect x="159" y="218" width="22" height="14" fill="#fff"/><text x="181" y="229" font-size="13" text-anchor="end">−4</text><rect x="159" y="262" width="22" height="14" fill="#fff"/><text x="181" y="273" font-size="13" text-anchor="end">−6</text><rect x="159" y="306" width="22" height="14" fill="#fff"/><text x="181" y="317" font-size="13" text-anchor="end">−8</text><rect x="159" y="350" width="22" height="14" fill="#fff"/><text x="181" y="361" font-size="13" text-anchor="end">−10</text><rect x="163" y="141" width="22" height="14" fill="#fff"/><text x="174" y="152" font-size="13" text-anchor="middle"><tspan font-style="italic">O</tspan></text><polyline points="30.00,93.03 30.89,93.06 31.79,93.09 32.68,93.12 33.57,93.15 34.46,93.19 35.36,93.22 36.25,93.26 37.14,93.29 38.03,93.33 38.93,93.37 39.82,93.41 40.71,93.45 41.61,93.49 42.50,93.53 43.39,93.57 44.28,93.62 45.18,93.66 46.07,93.71 46.96,93.76 47.85,93.81 48.75,93.86 49.64,93.91 50.53,93.97 51.42,94.03 52.32,94.08 53.21,94.14 54.10,94.20 55.00,94.27 55.89,94.33 56.78,94.40 57.67,94.47 58.57,94.54 59.46,94.61 60.35,94.68 61.24,94.76 62.14,94.84 63.03,94.92 63.92,95.00 64.82,95.09 65.71,95.18 66.60,95.27 67.49,95.36 68.39,95.46 69.28,95.55 70.17,95.66 71.06,95.76 71.96,95.87 72.85,95.98 73.74,96.09 74.64,96.21 75.53,96.33 76.42,96.45 77.31,96.58 78.21,96.71 79.10,96.84 79.99,96.98 80.88,97.12 81.78,97.27 82.67,97.42 83.56,97.58 84.45,97.73 85.35,97.90 86.24,98.07 87.13,98.24 88.03,98.42 88.92,98.60 89.81,98.79 90.70,98.98 91.60,99.18 92.49,99.39 93.38,99.60 94.27,99.81 95.17,100.04 96.06,100.27 96.95,100.50 97.85,100.74 98.74,100.99 99.63,101.25 100.52,101.51 101.42,101.79 102.31,102.06 103.20,102.35 104.09,102.65 104.99,102.95 105.88,103.26 106.77,103.58 107.67,103.91 108.56,104.25 109.45,104.60 110.34,104.96 111.24,105.33 112.13,105.71 113.02,106.10 113.91,106.51 114.81,106.92 115.70,107.35 116.59,107.78 117.48,108.23 118.38,108.70 119.27,109.17 120.16,109.66 121.06,110.17 121.95,110.69 122.84,111.22 123.73,111.77 124.63,112.33 125.52,112.91 126.41,113.51 127.30,114.12 128.20,114.75 129.09,115.40 129.98,116.07 130.88,116.75 131.77,117.46 132.66,118.19 133.55,118.93 134.45,119.70 135.34,120.49 136.23,121.31 137.12,122.14 138.02,123.00 138.91,123.89 139.80,124.80 140.70,125.73 141.59,126.69 142.48,127.68 143.37,128.70 144.27,129.75 145.16,130.82 146.05,131.93 146.94,133.07 147.84,134.24 148.73,135.45 149.62,136.69 150.51,137.96 151.41,139.27 152.30,140.62 153.19,142.01 154.09,143.43 154.98,144.90 155.87,146.41 156.76,147.96 157.66,149.56 158.55,151.20 159.44,152.89 160.33,154.63 161.23,156.41 162.12,158.25 163.01,160.14 163.91,162.08 164.80,164.08 165.69,166.14 166.58,168.25 167.48,170.43 168.37,172.67 169.26,174.97 170.15,177.33 171.05,179.77 171.94,182.27 172.83,184.85 173.73,187.49 174.62,190.22 175.51,193.02 176.40,195.90 177.30,198.87 178.19,201.91 179.08,205.05 179.97,208.27 180.87,211.59 181.76,215.00 182.65,218.51 183.54,222.12 184.44,225.83 185.33,229.65 186.22,233.58 187.12,237.61 188.01,241.77 188.90,246.04 189.79,250.43 190.69,254.95 191.58,259.60 192.47,264.38 193.36,269.30 194.26,274.36 195.15,279.56 196.04,284.91 196.94,290.41 197.83,296.07 198.72,301.89 199.61,307.88 200.51,314.04 201.40,320.37 202.29,326.89 203.18,333.59 204.08,340.48 204.97,347.57 205.86,354.86 206.76,362.36 207.65,370.07 208.54,378.00" fill="none" stroke="#111" stroke-width="2.6"/></svg>`
+      + `The graph of <i>y</i> = <i>f</i>(<i>x</i>) + 2 is shown, where <i>f</i> is defined by an equation of the form <i>f</i>(<i>x</i>) = <i>ab</i><sup><i>x</i></sup> + <i>c</i>. If <i>a</i>, <i>b</i>, and <i>c</i> are integer constants and <i>c</i> ≤ 0, which equation could define <i>f</i>(<i>x</i>)?`,
+    image: null,
+    options: [`<i>f</i>(<i>x</i>) = −6 · 2<sup><i>x</i></sup>`, `<i>f</i>(<i>x</i>) = −6 · 2<sup><i>x</i></sup> − 2`, `<i>f</i>(<i>x</i>) = −6 · 2<sup><i>x</i></sup> − 4`, `<i>f</i>(<i>x</i>) = −6 · 2<sup><i>x</i></sup> − 6`],
+    correctKey: "A" },
+
+  /* Q18 ← cũ Q8 ← nguồn 88 */
+  { id: 18, module: 1, domain: "Advanced Math", type: "mcq",
+    questionText: EQ(`4<i>x</i><sup>2</sup> − <i>px</i> + <i>w</i> = −85`) + `In the given equation, <i>p</i> and <i>w</i> are integer constants. The equation has exactly one real solution. Which is <b>NOT</b> a possible value of <i>w</i>?`,
+    image: null,
+    options: [`−21`, `15`, `64`, `315`],
+    correctKey: "C" },
+
+  /* Q19 ← cũ Q15 ← nguồn 26 */
+  { id: 19, module: 1, domain: "Algebra", type: "gridin",
+    questionText: `The function <i>f</i> is defined by the equation <i>f</i>(<i>x</i>) = 320<i>x</i>. What is the value of <i>f</i>(10)?`,
+    image: null, correctKey: "3200" },
+
+  /* Q20 ← cũ Q16 ← nguồn 186 (hình vẽ lại bằng SVG) */
+  { id: 20, module: 1, domain: "Geometry and Trigonometry", type: "gridin",
+    questionText: `<svg viewBox="0 0 460 260" width="440" style="display:block;margin:0 auto 6px;max-width:100%;font-family:Georgia,serif;"><line x1="10" y1="10" x2="450" y2="250" stroke="#111" stroke-width="2.4"/><line x1="10" y1="250" x2="450" y2="10" stroke="#111" stroke-width="2.4"/><text x="192" y="138" font-size="22" font-style="italic">r</text><text x="203" y="126" font-size="13">°</text><text x="252" y="138" font-size="22" font-style="italic">s</text><text x="263" y="126" font-size="13">°</text></svg><div style="text-align:center;margin:0 0 14px;">Note: Figure not drawn to scale.</div>`
+      + `In the figure, two lines intersect at a point. If <i>r</i> = 52, what is the value of <i>s</i>?`,
+    image: null, correctKey: "52" },
+
+  /* Q21 ← cũ Q6 ← nguồn 113 */
+  { id: 21, module: 1, domain: "Algebra", type: "gridin",
+    questionText: `The function <i>f</i> is defined by <i>f</i>(<i>x</i>) = 3<i>x</i> − 7 and <i>f</i>(<i>b</i>) = ${F('4','5')}. What is the value of <i>b</i>?`,
+    image: null, correctKey: ["13/5", "2.6"] },
+
+  /* Q22 ← cũ Q17 ← nguồn 192 */
+  { id: 22, module: 1, domain: "Algebra", type: "gridin",
+    questionText: `If <i>x</i> + 3<i>y</i> = 29 and 7<i>x</i> − 12<i>y</i> = −61, what is the value of <i>y</i>?`,
+    image: null, correctKey: "8" },
+
   /* ===================== MODULE 2 ===================== */
-  /* Q23 ← nguồn 137 */
-  { id: 23, module: 2, domain: "Advanced Math", type: "mcq",
+  /* Q23 ← cũ Q26 ← nguồn 64 */
+  { id: 23, module: 2, domain: "Geometry and Trigonometry", type: "mcq",
+    questionText: `A cube has an edge length of 7 inches. What is the volume, in cubic inches, of the cube?`,
+    image: null,
+    options: [`28`, `49`, `294`, `343`],
+    correctKey: "D" },
+
+  /* Q24 ← cũ Q39 ← nguồn 168 */
+  { id: 24, module: 2, domain: "Advanced Math", type: "mcq",
+    questionText: `The function <i>f</i> is defined by <i>f</i>(<i>x</i>) = 5 · 3<sup><i>x</i></sup>. What is the value of <i>f</i>(<i>x</i>) when <i>x</i> = 4?`,
+    image: null,
+    options: [`64`, `81`, `170`, `405`],
+    correctKey: "D" },
+
+  /* Q25 ← cũ Q32 ← nguồn 17 */
+  { id: 25, module: 2, domain: "Algebra", type: "mcq",
+    questionText: `A biologist recorded the pinching force of wild coconut crabs. The lowest pinching force recorded was 87.1 newtons and the highest pinching force recorded was 120.3 newtons. Which inequality is true for all values of <i>c</i>, where <i>c</i> represents any pinching force, in newtons, recorded for these wild coconut crabs?`,
+    image: null,
+    options: [`<i>c</i> ≤ 87.1`, `<i>c</i> ≥ 120.3`, `43.5 ≤ <i>c</i> ≤ 60.1`, `87.1 ≤ <i>c</i> ≤ 120.3`],
+    correctKey: "D" },
+
+  /* Q26 ← cũ Q23 ← nguồn 137 */
+  { id: 26, module: 2, domain: "Advanced Math", type: "mcq",
     questionText: EQ(`<i>q</i>(<i>x</i>) = 28(2<sup><i>x</i></sup>)`) + `Which table gives three values of <i>x</i> and their corresponding values of <i>q</i>(<i>x</i>) for function <i>q</i>?`,
     image: null,
     options: [QT([['−1','14'],['0','28'],['1','56']]),
@@ -818,65 +842,44 @@ const QUESTIONS = [
               QT([['−1','−56'],['0','0'],['1','56']])],
     correctKey: "A" },
 
-  /* Q24 ← nguồn 35 */
-  { id: 24, module: 2, domain: "Algebra", type: "gridin",
-    questionText: EQ(`7<i>x</i> + 12<i>y</i> = 180`) + `The equation gives the possible combinations of the number of mugs, <i>x</i>, and the number of plates, <i>y</i>, in a collection that is worth a total of $180. If there are 8 plates in the collection, how many mugs are in the collection?`,
-    image: null, correctKey: "12" },
-
-  /* Q25 ← nguồn 161 */
-  { id: 25, module: 2, domain: "Problem-Solving and Data Analysis", type: "gridin",
-    questionText: `A bag contains only yellow marbles and red marbles. The probability of selecting a yellow marble from the bag at random is ${F('8','17')}. What is the probability of selecting a red marble from the bag at random?`,
-    image: null, correctKey: ["9/17", "0.529", ".5294", ".5295"] },
-
-  /* Q26 ← nguồn 64 */
-  { id: 26, module: 2, domain: "Geometry and Trigonometry", type: "mcq",
-    questionText: `A cube has an edge length of 7 inches. What is the volume, in cubic inches, of the cube?`,
-    image: null,
-    options: [`28`, `49`, `294`, `343`],
-    correctKey: "D" },
-
-  /* Q27 ← nguồn 37 */
-  { id: 27, module: 2, domain: "Algebra", type: "gridin",
-    questionText: `A manager is responsible for ordering supplies for a coffee shop. The shop's inventory starts with 8,900 disposable cups, and the manager estimates that 120 of these cups are used each day. Based on this estimate, in how many days will the inventory of disposable cups reach 1,700?`,
-    image: null, correctKey: "60" },
-
-  /* Q28 ← nguồn 19 */
-  { id: 28, module: 2, domain: "Advanced Math", type: "gridin",
-    questionText: EQ(`${F('5','9')}(5<i>x</i> + 9)(<i>x</i> + ${SQ('5<i>k</i> + 9')})(<i>x</i> − ${SQ('5<i>k</i> + 9')}) = 0`)
-      + `In the given equation, <i>k</i> is a positive constant. The product of the solutions to the equation is 81. What is the value of <i>k</i>?`,
-    image: null, correctKey: ["36/5", "7.2"] },
-
-  /* Q29 ← nguồn 67 (hình vẽ lại bằng SVG) */
-  { id: 29, module: 2, domain: "Geometry and Trigonometry", type: "mcq",
-    questionText: `<svg viewBox="0 0 320 220" width="300" style="display:block;margin:0 auto 4px;max-width:100%;font-family:Georgia,serif;"><polygon points="30,190 290,190 290,30" fill="none" stroke="#111" stroke-width="2.2"/><polyline points="276,190 276,176 290,176" fill="none" stroke="#111" stroke-width="1.5"/><text x="290" y="22" font-size="17" font-style="italic" text-anchor="middle">A</text><text x="300" y="212" font-size="17" font-style="italic">B</text><text x="14" y="212" font-size="17" font-style="italic">C</text><text x="138" y="96" font-size="21">41</text><text x="298" y="116" font-size="21">22</text></svg><div style="text-align:center;font-size:15px;margin:0 0 16px;">Note: Figure not drawn to scale.</div>` + `In the right triangle shown, what is the value of cos <i>A</i>?`,
-    image: null,
-    options: [F('1','41'), F('1','22'), F('22','41'), F('41','22')],
-    correctKey: "C" },
-
-  /* Q30 ← nguồn 175 (đồ thị vẽ lại bằng SVG) */
-  { id: 30, module: 2, domain: "Algebra", type: "mcq",
+  /* Q27 ← cũ Q30 ← nguồn 175 (đồ thị vẽ lại bằng SVG) */
+  { id: 27, module: 2, domain: "Algebra", type: "mcq",
     questionText: `<svg viewBox="0 0 406 384" width="406" style="display:block;margin:0 auto 14px;max-width:100%;font-family:Georgia,serif;"><line x1="34" y1="370" x2="34" y2="28" stroke="#222" stroke-width="0.9"/><line x1="53" y1="370" x2="53" y2="28" stroke="#222" stroke-width="0.9"/><line x1="72" y1="370" x2="72" y2="28" stroke="#222" stroke-width="0.9"/><line x1="91" y1="370" x2="91" y2="28" stroke="#222" stroke-width="0.9"/><line x1="110" y1="370" x2="110" y2="28" stroke="#222" stroke-width="0.9"/><line x1="129" y1="370" x2="129" y2="28" stroke="#222" stroke-width="0.9"/><line x1="148" y1="370" x2="148" y2="28" stroke="#222" stroke-width="0.9"/><line x1="186" y1="370" x2="186" y2="28" stroke="#222" stroke-width="0.9"/><line x1="205" y1="370" x2="205" y2="28" stroke="#222" stroke-width="0.9"/><line x1="224" y1="370" x2="224" y2="28" stroke="#222" stroke-width="0.9"/><line x1="243" y1="370" x2="243" y2="28" stroke="#222" stroke-width="0.9"/><line x1="262" y1="370" x2="262" y2="28" stroke="#222" stroke-width="0.9"/><line x1="281" y1="370" x2="281" y2="28" stroke="#222" stroke-width="0.9"/><line x1="300" y1="370" x2="300" y2="28" stroke="#222" stroke-width="0.9"/><line x1="319" y1="370" x2="319" y2="28" stroke="#222" stroke-width="0.9"/><line x1="338" y1="370" x2="338" y2="28" stroke="#222" stroke-width="0.9"/><line x1="357" y1="370" x2="357" y2="28" stroke="#222" stroke-width="0.9"/><line x1="376" y1="370" x2="376" y2="28" stroke="#222" stroke-width="0.9"/><line x1="34" y1="370" x2="376" y2="370" stroke="#222" stroke-width="0.9"/><line x1="34" y1="351" x2="376" y2="351" stroke="#222" stroke-width="0.9"/><line x1="34" y1="332" x2="376" y2="332" stroke="#222" stroke-width="0.9"/><line x1="34" y1="313" x2="376" y2="313" stroke="#222" stroke-width="0.9"/><line x1="34" y1="294" x2="376" y2="294" stroke="#222" stroke-width="0.9"/><line x1="34" y1="275" x2="376" y2="275" stroke="#222" stroke-width="0.9"/><line x1="34" y1="256" x2="376" y2="256" stroke="#222" stroke-width="0.9"/><line x1="34" y1="218" x2="376" y2="218" stroke="#222" stroke-width="0.9"/><line x1="34" y1="199" x2="376" y2="199" stroke="#222" stroke-width="0.9"/><line x1="34" y1="180" x2="376" y2="180" stroke="#222" stroke-width="0.9"/><line x1="34" y1="161" x2="376" y2="161" stroke="#222" stroke-width="0.9"/><line x1="34" y1="142" x2="376" y2="142" stroke="#222" stroke-width="0.9"/><line x1="34" y1="123" x2="376" y2="123" stroke="#222" stroke-width="0.9"/><line x1="34" y1="104" x2="376" y2="104" stroke="#222" stroke-width="0.9"/><line x1="34" y1="85" x2="376" y2="85" stroke="#222" stroke-width="0.9"/><line x1="34" y1="66" x2="376" y2="66" stroke="#222" stroke-width="0.9"/><line x1="34" y1="47" x2="376" y2="47" stroke="#222" stroke-width="0.9"/><line x1="34" y1="28" x2="376" y2="28" stroke="#222" stroke-width="0.9"/><line x1="28" y1="237" x2="386" y2="237" stroke="#111" stroke-width="1.6"/><polygon points="392,237 382,233 382,241" fill="#111"/><line x1="167" y1="376" x2="167" y2="18" stroke="#111" stroke-width="1.6"/><polygon points="167,12 163,22 171,22" fill="#111"/><text x="388" y="229" font-size="15" font-style="italic">x</text><text x="163" y="8" font-size="15" font-style="italic" text-anchor="middle">y</text><rect x="42" y="231" width="22" height="14" fill="#fff"/><text x="53" y="242" font-size="13" text-anchor="middle">−6</text><rect x="80" y="231" width="22" height="14" fill="#fff"/><text x="91" y="242" font-size="13" text-anchor="middle">−4</text><rect x="118" y="231" width="22" height="14" fill="#fff"/><text x="129" y="242" font-size="13" text-anchor="middle">−2</text><rect x="194" y="231" width="22" height="14" fill="#fff"/><text x="205" y="242" font-size="13" text-anchor="middle">2</text><rect x="232" y="231" width="22" height="14" fill="#fff"/><text x="243" y="242" font-size="13" text-anchor="middle">4</text><rect x="270" y="231" width="22" height="14" fill="#fff"/><text x="281" y="242" font-size="13" text-anchor="middle">6</text><rect x="308" y="231" width="22" height="14" fill="#fff"/><text x="319" y="242" font-size="13" text-anchor="middle">8</text><rect x="346" y="231" width="22" height="14" fill="#fff"/><text x="357" y="242" font-size="13" text-anchor="middle">10</text><rect x="142" y="345" width="22" height="14" fill="#fff"/><text x="164" y="356" font-size="13" text-anchor="end">−6</text><rect x="142" y="307" width="22" height="14" fill="#fff"/><text x="164" y="318" font-size="13" text-anchor="end">−4</text><rect x="142" y="269" width="22" height="14" fill="#fff"/><text x="164" y="280" font-size="13" text-anchor="end">−2</text><rect x="142" y="193" width="22" height="14" fill="#fff"/><text x="164" y="204" font-size="13" text-anchor="end">2</text><rect x="142" y="155" width="22" height="14" fill="#fff"/><text x="164" y="166" font-size="13" text-anchor="end">4</text><rect x="142" y="117" width="22" height="14" fill="#fff"/><text x="164" y="128" font-size="13" text-anchor="end">6</text><rect x="142" y="79" width="22" height="14" fill="#fff"/><text x="164" y="90" font-size="13" text-anchor="end">8</text><rect x="142" y="41" width="22" height="14" fill="#fff"/><text x="164" y="52" font-size="13" text-anchor="end">10</text><rect x="146" y="242" width="22" height="14" fill="#fff"/><text x="157" y="253" font-size="13" text-anchor="middle"><tspan font-style="italic">O</tspan></text><polyline points="100.50,28.00 271.50,370.00" fill="none" stroke="#111" stroke-width="2.6"/></svg>`
       + `The graph of the linear function <i>f</i> is shown, where <i>y</i> = <i>f</i>(<i>x</i>). Which equation defines function <i>f</i>?`,
     image: null,
     options: [`<i>f</i>(<i>x</i>) = −2<i>x</i> + 4`, `<i>f</i>(<i>x</i>) = −2<i>x</i> − 4`, `<i>f</i>(<i>x</i>) = 2<i>x</i> + 4`, `<i>f</i>(<i>x</i>) = 2<i>x</i> − 4`],
     correctKey: "A" },
 
-  /* Q31 ← nguồn 46 */
-  { id: 31, module: 2, domain: "Advanced Math", type: "mcq",
-    questionText: `A model estimates that in a particular forest, the number of trees with any given diameter measured at shoulder height is 21% less for each 1-inch increase in tree diameter measured at shoulder height. The model can be written in the form <i>f</i>(<i>x</i>) = <i>ab</i><sup><i>x</i></sup>, where <i>a</i> and <i>b</i> are constants and <i>x</i> is the tree's diameter, in inches, measured at shoulder height, and <i>x</i> ≥ 5. The model estimates that 3,100 trees in this forest have a diameter of 13 inches measured at shoulder height. Which function best represents this model?`,
+  /* Q28 ← cũ Q29 ← nguồn 67 (hình vẽ lại bằng SVG) */
+  { id: 28, module: 2, domain: "Geometry and Trigonometry", type: "mcq",
+    questionText: `<svg viewBox="0 0 320 220" width="300" style="display:block;margin:0 auto 4px;max-width:100%;font-family:Georgia,serif;"><polygon points="30,190 290,190 290,30" fill="none" stroke="#111" stroke-width="2.2"/><polyline points="276,190 276,176 290,176" fill="none" stroke="#111" stroke-width="1.5"/><text x="290" y="22" font-size="17" font-style="italic" text-anchor="middle">A</text><text x="300" y="212" font-size="17" font-style="italic">B</text><text x="14" y="212" font-size="17" font-style="italic">C</text><text x="138" y="96" font-size="21">41</text><text x="298" y="116" font-size="21">22</text></svg><div style="text-align:center;font-size:15px;margin:0 0 16px;">Note: Figure not drawn to scale.</div>` + `In the right triangle shown, what is the value of cos <i>A</i>?`,
     image: null,
-    options: [`<i>f</i>(<i>x</i>) = 3,100 · 1.21<sup><i>x</i></sup>`, `<i>f</i>(<i>x</i>) = 3,100 · 0.79<sup><i>x</i></sup>`, `<i>f</i>(<i>x</i>) = 66,000 · 1.21<sup><i>x</i></sup>`, `<i>f</i>(<i>x</i>) = 66,000 · 0.79<sup><i>x</i></sup>`],
+    options: [F('1','41'), F('1','22'), F('22','41'), F('41','22')],
+    correctKey: "C" },
+
+  /* Q29 ← cũ Q41 ← nguồn 127 */
+  { id: 29, module: 2, domain: "Algebra", type: "mcq",
+    questionText: EQ(`<i>y</i> = 4<i>x</i> + 36`) + `One of the two equations in a system of linear equations is given. The system has infinitely many solutions. Which equation could be the second equation in this system?`,
+    image: null,
+    options: [`<i>y</i> − 4<i>x</i> = −36`, `<i>y</i> − 4<i>x</i> = 36`, `<i>y</i> − 9<i>x</i> = 18`, `<i>y</i> − 9<i>x</i> = 0`],
+    correctKey: "B" },
+
+  /* Q30 ← cũ Q40 ← nguồn 22 */
+  { id: 30, module: 2, domain: "Algebra", type: "mcq",
+    questionText: `What is the <i>x</i>-intercept of a line in the <i>xy</i>-plane that has a slope of −${F('4','7')} and passes through the point (0, 12)?`,
+    image: null,
+    options: [`(−21, 0)`, `(−4, 0)`, `(7, 0)`, `(21, 0)`],
     correctKey: "D" },
 
-  /* Q32 ← nguồn 17 */
-  { id: 32, module: 2, domain: "Algebra", type: "mcq",
-    questionText: `A biologist recorded the pinching force of wild coconut crabs. The lowest pinching force recorded was 87.1 newtons and the highest pinching force recorded was 120.3 newtons. Which inequality is true for all values of <i>c</i>, where <i>c</i> represents any pinching force, in newtons, recorded for these wild coconut crabs?`,
+  /* Q31 ← cũ Q44 ← nguồn 165 */
+  { id: 31, module: 2, domain: "Algebra", type: "mcq",
+    questionText: `For the linear function <i>f</i>, the graph of <i>y</i> = <i>f</i>(<i>x</i>) in the <i>xy</i>-plane has a slope of −5 and passes through the point (2, −4). Which equation defines <i>f</i>?`,
     image: null,
-    options: [`<i>c</i> ≤ 87.1`, `<i>c</i> ≥ 120.3`, `43.5 ≤ <i>c</i> ≤ 60.1`, `87.1 ≤ <i>c</i> ≤ 120.3`],
+    options: [`<i>f</i>(<i>x</i>) = 2<i>x</i> − 4`, `<i>f</i>(<i>x</i>) = −5<i>x</i> − 4`, `<i>f</i>(<i>x</i>) = −5<i>x</i> − 5`, `<i>f</i>(<i>x</i>) = −5<i>x</i> + 6`],
     correctKey: "D" },
 
-  /* Q33 ← nguồn 135 */
-  { id: 33, module: 2, domain: "Advanced Math", type: "mcq",
+  /* Q32 ← cũ Q33 ← nguồn 135 */
+  { id: 32, module: 2, domain: "Advanced Math", type: "mcq",
     questionText: `<table style="border-collapse:collapse;margin:4px auto 22px;text-align:center;font-size:17px;">`
       + `<tr>${TD('<i>x</i>')}${TD('<i>h</i>(<i>x</i>)')}</tr>`
       + `<tr>${TD('0')}${TD('15')}</tr><tr>${TD('1')}${TD('16')}</tr><tr>${TD('2')}${TD('18')}</tr></table>`
@@ -885,77 +888,77 @@ const QUESTIONS = [
     options: [`<i>h</i>(<i>x</i>) = 2<sup><i>x</i></sup> + 14`, `<i>h</i>(<i>x</i>) = 2<sup><i>x</i></sup> + 13`, `<i>h</i>(<i>x</i>) = 2<i>x</i><sup>2</sup> + 2`, `<i>h</i>(<i>x</i>) = 2<sup><i>x</i></sup>`],
     correctKey: "A" },
 
-  /* Q34 ← nguồn 60 */
-  { id: 34, module: 2, domain: "Geometry and Trigonometry", type: "gridin",
-    questionText: `A circle has a circumference of 28π centimeters. What is the diameter, in centimeters, of the circle?`,
-    image: null, correctKey: "28" },
-
-  /* Q35 ← nguồn 55 */
-  { id: 35, module: 2, domain: "Geometry and Trigonometry", type: "gridin",
-    questionText: `A circle has center <i>G</i>, and points <i>M</i> and <i>N</i> lie on the circle. Line segments <i>MH</i> and <i>NH</i> are tangent to the circle at points <i>M</i> and <i>N</i>, respectively. If the radius of the circle is 247 millimeters and the perimeter of quadrilateral <i>GMHN</i> is 5,174 millimeters, what is the distance, in millimeters, between points <i>G</i> and <i>H</i>?`,
-    image: null, correctKey: "2353" },
-
-  /* Q36 ← nguồn 73 */
-  { id: 36, module: 2, domain: "Geometry and Trigonometry", type: "mcq",
-    questionText: `The measure of angle <i>R</i> is ${F('2π','3')} radians. The measure of angle <i>T</i> is ${F('23π','18')} radians greater than the measure of angle <i>R</i>. What is the measure of angle <i>T</i>, in degrees?`,
-    image: null,
-    options: [`120`, `230`, `350`, `700`],
-    correctKey: "C" },
-
-  /* Q37 ← nguồn 167 */
-  { id: 37, module: 2, domain: "Advanced Math", type: "mcq",
+  /* Q33 ← cũ Q37 ← nguồn 167 */
+  { id: 33, module: 2, domain: "Advanced Math", type: "mcq",
     questionText: `The product of a positive number <i>x</i> and the number that is 7 less than <i>x</i> is equal to 44. What is the value of <i>x</i>?`,
     image: null,
     options: [`3.5`, `11`, `37`, `51`],
     correctKey: "B" },
 
-  /* Q38 ← nguồn 30 (hình vẽ lại bằng SVG) */
-  { id: 38, module: 2, domain: "Geometry and Trigonometry", type: "gridin",
-    questionText: `<svg viewBox="0 0 240 300" width="240" style="display:block;margin:0 auto 4px;max-width:100%;font-family:Georgia,serif;"><line x1="187" y1="17" x2="92" y2="132" stroke="#111" stroke-width="1.4" stroke-dasharray="7,5"/><line x1="92" y1="132" x2="18" y2="172" stroke="#111" stroke-width="1.4" stroke-dasharray="7,5"/><line x1="92" y1="132" x2="206" y2="240" stroke="#111" stroke-width="1.4" stroke-dasharray="7,5"/><line x1="187" y1="17" x2="112.0" y2="206.0" stroke="#111" stroke-width="1.4" stroke-dasharray="7,5"/><polyline points="104.0,204.0 104.0,214.0 112.0,216.0" fill="none" stroke="#111" stroke-width="1.2"/><line x1="187" y1="17" x2="18" y2="172" stroke="#111" stroke-width="2.2"/><line x1="187" y1="17" x2="138" y2="287" stroke="#111" stroke-width="2.2"/><line x1="187" y1="17" x2="206" y2="240" stroke="#111" stroke-width="2.2"/><line x1="18" y1="172" x2="138" y2="287" stroke="#111" stroke-width="2.2"/><line x1="138" y1="287" x2="206" y2="240" stroke="#111" stroke-width="2.2"/><text x="127" y="130" font-size="18" font-style="italic">h</text><text x="56" y="246" font-size="18" font-style="italic">ℓ</text><text x="180" y="278" font-size="18" font-style="italic">w</text></svg><div style="text-align:center;margin:0 0 16px;">Note: Figure not drawn to scale.</div>`
-      + `The figure shown is a right rectangular pyramid, where <i>l</i> = 16 units, <i>w</i> = 8 units, and <i>h</i> = 18 units. What is the surface area, in square units, of the pyramid?`,
-    image: null, correctKey: ["580.6", "2903/5"] },
-
-  /* Q39 ← nguồn 168 */
-  { id: 39, module: 2, domain: "Advanced Math", type: "mcq",
-    questionText: `The function <i>f</i> is defined by <i>f</i>(<i>x</i>) = 5 · 3<sup><i>x</i></sup>. What is the value of <i>f</i>(<i>x</i>) when <i>x</i> = 4?`,
-    image: null,
-    options: [`64`, `81`, `170`, `405`],
-    correctKey: "D" },
-
-  /* Q40 ← nguồn 22 */
-  { id: 40, module: 2, domain: "Algebra", type: "mcq",
-    questionText: `What is the <i>x</i>-intercept of a line in the <i>xy</i>-plane that has a slope of −${F('4','7')} and passes through the point (0, 12)?`,
-    image: null,
-    options: [`(−21, 0)`, `(−4, 0)`, `(7, 0)`, `(21, 0)`],
-    correctKey: "D" },
-
-  /* Q41 ← nguồn 127 */
-  { id: 41, module: 2, domain: "Algebra", type: "mcq",
-    questionText: EQ(`<i>y</i> = 4<i>x</i> + 36`) + `One of the two equations in a system of linear equations is given. The system has infinitely many solutions. Which equation could be the second equation in this system?`,
-    image: null,
-    options: [`<i>y</i> − 4<i>x</i> = −36`, `<i>y</i> − 4<i>x</i> = 36`, `<i>y</i> − 9<i>x</i> = 18`, `<i>y</i> − 9<i>x</i> = 0`],
-    correctKey: "B" },
-
-  /* Q42 ← nguồn 16 */
-  { id: 42, module: 2, domain: "Algebra", type: "mcq",
-    questionText: `One gallon of sealant costs $19 and will cover 350 square feet of a surface. A deck has a total surface area of <i>d</i> square feet. Which equation represents the cost <i>c</i>, in dollars, of the sealant needed to cover the deck twice?`,
-    image: null,
-    options: [`<i>c</i> = ${F('350<i>d</i>','19')}`, `<i>c</i> = ${F('700<i>d</i>','19')}`, `<i>c</i> = 19 · ${F('<i>d</i>','175')}`, `<i>c</i> = 19 · ${F('<i>d</i>','350')}`],
-    correctKey: "C" },
-
-  /* Q43 ← nguồn 21 */
-  { id: 43, module: 2, domain: "Advanced Math", type: "mcq",
+  /* Q34 ← cũ Q43 ← nguồn 21 */
+  { id: 34, module: 2, domain: "Advanced Math", type: "mcq",
     questionText: EQ(`<i>y</i> = 5<i>x</i><sup>2</sup> − 40<i>x</i> + 35`) + `The given equation represents a parabola in the <i>xy</i>-plane. Which of the following equations that represent the same parabola displays the <i>x</i>-intercepts as constants or coefficients?`,
     image: null,
     options: [`<i>y</i> = 5<i>x</i><sup>2</sup> − 8<i>x</i> + 35`, `<i>y</i> = 5<i>x</i>(<i>x</i> − 8) + 35`, `<i>y</i> = 5(<i>x</i> − 4)<sup>2</sup> − 45`, `<i>y</i> = 5(<i>x</i> − 1)(<i>x</i> − 7)`],
     correctKey: "D" },
 
-  /* Q44 ← nguồn 165 */
-  { id: 44, module: 2, domain: "Algebra", type: "mcq",
-    questionText: `For the linear function <i>f</i>, the graph of <i>y</i> = <i>f</i>(<i>x</i>) in the <i>xy</i>-plane has a slope of −5 and passes through the point (2, −4). Which equation defines <i>f</i>?`,
+  /* Q35 ← cũ Q36 ← nguồn 73 */
+  { id: 35, module: 2, domain: "Geometry and Trigonometry", type: "mcq",
+    questionText: `The measure of angle <i>R</i> is ${F('2π','3')} radians. The measure of angle <i>T</i> is ${F('23π','18')} radians greater than the measure of angle <i>R</i>. What is the measure of angle <i>T</i>, in degrees?`,
     image: null,
-    options: [`<i>f</i>(<i>x</i>) = 2<i>x</i> − 4`, `<i>f</i>(<i>x</i>) = −5<i>x</i> − 4`, `<i>f</i>(<i>x</i>) = −5<i>x</i> − 5`, `<i>f</i>(<i>x</i>) = −5<i>x</i> + 6`],
-    correctKey: "D" }
+    options: [`120`, `230`, `350`, `700`],
+    correctKey: "C" },
+
+  /* Q36 ← cũ Q42 ← nguồn 16 */
+  { id: 36, module: 2, domain: "Algebra", type: "mcq",
+    questionText: `One gallon of sealant costs $19 and will cover 350 square feet of a surface. A deck has a total surface area of <i>d</i> square feet. Which equation represents the cost <i>c</i>, in dollars, of the sealant needed to cover the deck twice?`,
+    image: null,
+    options: [`<i>c</i> = ${F('350<i>d</i>','19')}`, `<i>c</i> = ${F('700<i>d</i>','19')}`, `<i>c</i> = 19 · ${F('<i>d</i>','175')}`, `<i>c</i> = 19 · ${F('<i>d</i>','350')}`],
+    correctKey: "C" },
+
+  /* Q37 ← cũ Q31 ← nguồn 46 */
+  { id: 37, module: 2, domain: "Advanced Math", type: "mcq",
+    questionText: `A model estimates that in a particular forest, the number of trees with any given diameter measured at shoulder height is 21% less for each 1-inch increase in tree diameter measured at shoulder height. The model can be written in the form <i>f</i>(<i>x</i>) = <i>ab</i><sup><i>x</i></sup>, where <i>a</i> and <i>b</i> are constants and <i>x</i> is the tree's diameter, in inches, measured at shoulder height, and <i>x</i> ≥ 5. The model estimates that 3,100 trees in this forest have a diameter of 13 inches measured at shoulder height. Which function best represents this model?`,
+    image: null,
+    options: [`<i>f</i>(<i>x</i>) = 3,100 · 1.21<sup><i>x</i></sup>`, `<i>f</i>(<i>x</i>) = 3,100 · 0.79<sup><i>x</i></sup>`, `<i>f</i>(<i>x</i>) = 66,000 · 1.21<sup><i>x</i></sup>`, `<i>f</i>(<i>x</i>) = 66,000 · 0.79<sup><i>x</i></sup>`],
+    correctKey: "D" },
+
+  /* Q38 ← cũ Q34 ← nguồn 60 */
+  { id: 38, module: 2, domain: "Geometry and Trigonometry", type: "gridin",
+    questionText: `A circle has a circumference of 28π centimeters. What is the diameter, in centimeters, of the circle?`,
+    image: null, correctKey: "28" },
+
+  /* Q39 ← cũ Q24 ← nguồn 35 */
+  { id: 39, module: 2, domain: "Algebra", type: "gridin",
+    questionText: EQ(`7<i>x</i> + 12<i>y</i> = 180`) + `The equation gives the possible combinations of the number of mugs, <i>x</i>, and the number of plates, <i>y</i>, in a collection that is worth a total of $180. If there are 8 plates in the collection, how many mugs are in the collection?`,
+    image: null, correctKey: "12" },
+
+  /* Q40 ← cũ Q25 ← nguồn 161 */
+  { id: 40, module: 2, domain: "Problem-Solving and Data Analysis", type: "gridin",
+    questionText: `A bag contains only yellow marbles and red marbles. The probability of selecting a yellow marble from the bag at random is ${F('8','17')}. What is the probability of selecting a red marble from the bag at random?`,
+    image: null, correctKey: ["9/17", "0.529", ".5294", ".5295"] },
+
+  /* Q41 ← cũ Q27 ← nguồn 37 */
+  { id: 41, module: 2, domain: "Algebra", type: "gridin",
+    questionText: `A manager is responsible for ordering supplies for a coffee shop. The shop's inventory starts with 8,900 disposable cups, and the manager estimates that 120 of these cups are used each day. Based on this estimate, in how many days will the inventory of disposable cups reach 1,700?`,
+    image: null, correctKey: "60" },
+
+  /* Q42 ← cũ Q35 ← nguồn 55 */
+  { id: 42, module: 2, domain: "Geometry and Trigonometry", type: "gridin",
+    questionText: `A circle has center <i>G</i>, and points <i>M</i> and <i>N</i> lie on the circle. Line segments <i>MH</i> and <i>NH</i> are tangent to the circle at points <i>M</i> and <i>N</i>, respectively. If the radius of the circle is 247 millimeters and the perimeter of quadrilateral <i>GMHN</i> is 5,174 millimeters, what is the distance, in millimeters, between points <i>G</i> and <i>H</i>?`,
+    image: null, correctKey: "2353" },
+
+  /* Q43 ← cũ Q28 ← nguồn 19 */
+  { id: 43, module: 2, domain: "Advanced Math", type: "gridin",
+    questionText: EQ(`${F('5','9')}(5<i>x</i> + 9)(<i>x</i> + ${SQ('5<i>k</i> + 9')})(<i>x</i> − ${SQ('5<i>k</i> + 9')}) = 0`)
+      + `In the given equation, <i>k</i> is a positive constant. The product of the solutions to the equation is 81. What is the value of <i>k</i>?`,
+    image: null, correctKey: ["36/5", "7.2"] },
+
+  /* Q44 ← cũ Q38 ← nguồn 30 (hình vẽ lại bằng SVG) */
+  { id: 44, module: 2, domain: "Geometry and Trigonometry", type: "gridin",
+    questionText: `<svg viewBox="0 0 240 300" width="240" style="display:block;margin:0 auto 4px;max-width:100%;font-family:Georgia,serif;"><line x1="187" y1="17" x2="92" y2="132" stroke="#111" stroke-width="1.4" stroke-dasharray="7,5"/><line x1="92" y1="132" x2="18" y2="172" stroke="#111" stroke-width="1.4" stroke-dasharray="7,5"/><line x1="92" y1="132" x2="206" y2="240" stroke="#111" stroke-width="1.4" stroke-dasharray="7,5"/><line x1="187" y1="17" x2="112.0" y2="206.0" stroke="#111" stroke-width="1.4" stroke-dasharray="7,5"/><polyline points="104.0,204.0 104.0,214.0 112.0,216.0" fill="none" stroke="#111" stroke-width="1.2"/><line x1="187" y1="17" x2="18" y2="172" stroke="#111" stroke-width="2.2"/><line x1="187" y1="17" x2="138" y2="287" stroke="#111" stroke-width="2.2"/><line x1="187" y1="17" x2="206" y2="240" stroke="#111" stroke-width="2.2"/><line x1="18" y1="172" x2="138" y2="287" stroke="#111" stroke-width="2.2"/><line x1="138" y1="287" x2="206" y2="240" stroke="#111" stroke-width="2.2"/><text x="127" y="130" font-size="18" font-style="italic">h</text><text x="56" y="246" font-size="18" font-style="italic">ℓ</text><text x="180" y="278" font-size="18" font-style="italic">w</text></svg><div style="text-align:center;margin:0 0 16px;">Note: Figure not drawn to scale.</div>`
+      + `The figure shown is a right rectangular pyramid, where <i>l</i> = 16 units, <i>w</i> = 8 units, and <i>h</i> = 18 units. What is the surface area, in square units, of the pyramid?`,
+    image: null, correctKey: ["580.6", "2903/5"] }
 ];
 
 
